@@ -1,0 +1,39 @@
+# Docker Compose configuration for one-time certbot-dnsexit execution
+# This configuration runs the container once with RENEWAL_INTERVAL = 0
+#
+# Usage:
+#   docker-compose -f docker-compose.runonce.yml up
+#   docker-compose -f docker-compose.runonce.yml logs
+
+version: '3.8'
+
+# Docker secrets for secure API key storage
+secrets:
+  dnsexit_api_key:
+    file: ./secrets/dnsexit_api_key
+
+services:
+  certbot-dnsexit:
+    build: .
+    container_name: certbot-dnsexit-once
+    environment:
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - DOMAINS=${DOMAINS:-}
+      - RENEW=${RENEW:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DNS_PROPAGATION_WAIT=${DNS_PROPAGATION_WAIT:-500}
+      - DNS_PROPAGATION_ADDRESS=${DNS_PROPAGATION_ADDRESS}
+      - LOG_FILE=${LOG_FILE}
+      - CERTBOT_DIR=${CERTBOT_DIR:-/etc/letsencrypt}
+      - WORK_DIR=${WORK_DIR:-/var/lib/letsencrypt}
+      - RENEWAL_INTERVAL=0  # One-time execution
+      - CERTBOT_CERTONLY_EXTRA_ARGS=${CERTBOT_CERTONLY_EXTRA_ARGS}
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./work:/var/lib/letsencrypt
+      - ./work/logs:/var/log/letsencrypt
+      - ./config:/config:ro
+    secrets:
+      - dnsexit_api_key
+    # No restart policy - container exits after completion
+    restart: "no"

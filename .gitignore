@@ -1,0 +1,100 @@
+# Virtual environment
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Logs
+*.log
+
+# Environments
+.env
+
+# Certbot specific
+/etc/letsencrypt/
+/var/lib/letsencrypt/
+*.pem
+*.key
+*.crt
+*.csr
+
+# Docker
+.dockerignore
+
+# Temporary folders
+tmp/
+temp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Backup files
+*.bak
+*.tmp
+*~
+
+# Project specific
+.clinerules
+config/config.local.yaml
+config/secrets.yaml
+work/
+letsencrypt/
+certs/
+certificates/
+secrets/
+
+# Memory Bank (local documentation, not for version control)
+memory-bank/
+
+# Security and license reports (generated files)
+safety-report.json
+licenses-report.json
+trivy-report.json
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Additional Python cache
+.mypy_cache/
+.ruff_cache/
+.kilocodemodes

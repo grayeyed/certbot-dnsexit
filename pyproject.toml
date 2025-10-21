@@ -1,0 +1,56 @@
+[tool.ruff]
+line-length = 120
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "I", "N", "UP", "YTT", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "DJ", "EM", "EXE", "FA", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SLOT", "SIM", "TID", "TCH", "INT", "ARG", "PTH", "ERA", "PD", "PGH", "PL", "TRY", "FLY", "NPY", "AIR", "PERF", "FURB", "LOG", "RUF"]
+ignore = [
+    "S101",      # assert statements (для тестов)
+    "COM812",    # trailing comma missing
+    "G004",      # f-string в логировании (производительность vs читаемость)
+    "E402",      # импорты не в начале (для специфической архитектуры)
+    "EXE001",    # shebang в неисполняемых файлах
+    "FBT001", "FBT002",  # boolean в аргументах (для API совместимости)
+    "PLR0911",   # много return statements (для сложной логики)
+    "TRY300",    # else блоки (для читаемости)
+    "TRY401",    # exception в logging.exception
+    "PTH110", "PTH123",  # os.path vs Path (для совместимости)
+    "DTZ006",    # timezone в datetime
+    "C901", "PLR0913",   # сложность функций
+    "BLE001",    # broad exception handling
+    "PLC0415",   # импорты не в начале файла (для специфической архитектуры)
+    "PLW0603",   # использование global (для паттерна singleton)
+    "PLR2004",   # магические числа (для тестов и констант)
+    "PLR0912",   # слишком много веток (для сложной логики)
+    "PLR0915",   # слишком много statements (для сложных функций)
+    "E501",      # длинные строки (для читаемости кода)
+    "TRY301",    # abstract raise (для читаемости)
+    "TRY004",    # prefer TypeError (для API совместимости)
+    "ARG002",    # неиспользуемые аргументы (для mock объектов)
+    "PTH118", "PTH120",  # os.path vs Path (для совместимости)
+    "PTH103", "PTH108",  # os operations vs Path (для совместимости)
+    "SLF001",    # доступ к private member (для тестирования)
+    "PERF203",   # try-except in loop (для специфической логики)
+    "PERF403",   # dict comprehension (для читаемости)
+]
+
+[tool.mypy]
+python_version = "3.14"
+warn_return_any = false
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = false
+disallow_untyped_decorators = false
+no_implicit_optional = false
+warn_redundant_casts = false
+warn_unused_ignores = false
+warn_no_return = false
+warn_unreachable = false
+strict_equality = false
+ignore_missing_imports = true
+disable_error_code = ["import-untyped", "assignment"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true

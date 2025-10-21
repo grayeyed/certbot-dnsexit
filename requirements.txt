@@ -1,0 +1,7 @@
+certbot>=2.10.0
+josepy>=1.14.0
+requests>=2.32.0
+urllib3>=2.0.0
+python-dotenv>=1.0.0
+dnspython>=2.6.0
+pytest>=8.3.0

@@ -1,0 +1,48 @@
+# Docker Compose configuration for certbot-dnsexit with renewal
+# This configuration runs the container with RENEWAL_INTERVAL > 0 for continuous certificate renewal
+#
+# Usage:
+#   docker-compose -f docker-compose.run.yml up -d
+#   docker-compose -f docker-compose.run.yml logs -f
+#   docker-compose -f docker-compose.run.yml down
+
+version: '3.8'
+
+# Docker secrets for secure API key storage
+secrets:
+  dnsexit_api_key:
+    file: ./secrets/dnsexit_api_key
+
+services:
+  certbot-dnsexit:
+    build: .
+    container_name: certbot-dnsexit
+    environment:
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+      - DOMAINS=${DOMAINS:-}
+      - RENEW=${RENEW:-false}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - DNS_PROPAGATION_WAIT=${DNS_PROPAGATION_WAIT:-500}
+      - DNS_PROPAGATION_ADDRESS=${DNS_PROPAGATION_ADDRESS}
+      - LOG_FILE=${LOG_FILE}
+      - CERTBOT_DIR=${CERTBOT_DIR:-/etc/letsencrypt}
+      - WORK_DIR=${WORK_DIR:-/var/lib/letsencrypt}
+      - RENEWAL_INTERVAL=${RENEWAL_INTERVAL:-86400}  # Default: 24 hours
+      - CERTBOT_CERTONLY_EXTRA_ARGS=${CERTBOT_CERTONLY_EXTRA_ARGS}
+    volumes:
+      - ./certs:/etc/letsencrypt
+      - ./work:/var/lib/letsencrypt
+      - ./work/logs:/var/log/letsencrypt
+      - ./config:/config:ro
+    secrets:
+      - dnsexit_api_key
+    healthcheck:
+      test: ["CMD", "/app/scripts/healthcheck.sh"]
+      interval: 5m
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    # Optional: Export health metrics to file
+    # environment:
+    #   - HEALTH_METRICS_FILE=/var/log/letsencrypt/health_metrics.txt
+    restart: "unless-stopped"

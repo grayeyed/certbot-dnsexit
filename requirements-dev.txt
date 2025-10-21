@@ -1,0 +1,15 @@
+# Development dependencies for linting and testing
+ruff>=0.1.0
+mypy>=1.5.0
+bandit>=1.7.0
+pre-commit>=3.0.0
+pytest>=8.3.0
+
+# Security scanning tools
+safety>=3.0.0
+
+# License compliance checking
+pip-licenses>=4.0.0
+
+# Additional pre-commit dependencies
+shellcheck-py>=0.10.0

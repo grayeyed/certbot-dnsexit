@@ -1,0 +1,64 @@
+# Pre-commit hooks configuration for certbot-dnsexit
+# See https://pre-commit.com for more information
+
+repos:
+  # Ruff - fast Python linter and formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # MyPy - static type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.18.2
+    hooks:
+      - id: mypy
+        additional_dependencies: []
+        args: [--config-file=pyproject.toml, --explicit-package-bases]
+
+  # Bandit - security linter
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.8.6
+    hooks:
+      - id: bandit
+        args: [-r, src/]
+        exclude: ^tests/
+
+  # pytest - run tests (optional - can be slow)
+  # - repo: https://github.com/pytest-dev/pytest
+  #   rev: 8.3.0
+  #   hooks:
+  #     - id: pytest
+  #       args: [--tb=short]
+
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=500]
+      - id: check-merge-conflict
+      - id: trailing-whitespace
+        exclude: ^\.env.*$
+      - id: check-yaml
+        files: \.(yaml|yml)$
+      - id: check-toml
+      - id: check-ast
+      - id: debug-statements
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+  # Shell script linting (optional - requires shellcheck)
+  # - repo: https://github.com/shellcheck-py/shellcheck-py
+  #   rev: v0.10.0
+  #   hooks:
+  #     - id: shellcheck
+  #       files: \.(sh|bash)$
+
+  # Dockerfile linting (optional - requires hadolint installation)
+  # - repo: https://github.com/hadolint/hadolint
+  #   rev: v2.12.0
+  #   hooks:
+  #     - id: hadolint-docker
