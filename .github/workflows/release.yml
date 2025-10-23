@@ -20,13 +20,13 @@ jobs:
       with:
         registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ secrets.GHCR_PAT || secrets.GITHUB_TOKEN }}
 
     - name: Extract metadata
       id: meta
       uses: docker/metadata-action@v5
       with:
-        images: ghcr.io/${{ github.repository }}
+        images: ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}
         tags: |
           type=ref,event=tag
           type=raw,value=latest
@@ -42,18 +42,16 @@ jobs:
         cache-to: type=gha,mode=max
 
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ github.ref_name }}
+        name: Release ${{ github.ref_name }}
         body: |
           ## Changes
 
           ### Docker Images
-          - `ghcr.io/${{ github.repository }}:latest`
-          - `ghcr.io/${{ github.repository }}:${{ github.ref_name }}`
+          - `ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:latest`
+          - `ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:${{ github.ref_name }}`
 
           ### What's New
           - Python 3.14 support
@@ -65,3 +63,5 @@ jobs:
           - Python 3.11+ (development)
         draft: false
         prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GHCR_PAT || secrets.GITHUB_TOKEN }}
