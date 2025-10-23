@@ -1,5 +1,9 @@
 # Pre-commit hooks configuration for certbot-dnsexit
 # See https://pre-commit.com for more information
+#
+# IMPORTANT: Run these hooks locally BEFORE committing:
+#   pre-commit run --all-files
+#   pre-commit install  # to run automatically on git commit
 
 repos:
   # Ruff - fast Python linter and formatter

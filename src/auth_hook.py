@@ -8,8 +8,8 @@ import os
 import sys
 import time
 
-from dnsexit_client import DNSExitClient, configure_logger
-from logging_config import log_component_error, log_dns_operation, setup_logger
+from .dnsexit_client import DNSExitClient, configure_logger
+from .logging_config import log_component_error, log_dns_operation, setup_logger
 
 # Configure logging with environment variable support
 logger = setup_logger(__name__)
